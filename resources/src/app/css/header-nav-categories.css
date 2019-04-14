@@ -1,0 +1,28 @@
+.type_nav {
+width: 100%;
+margin: 0;
+padding: 0;
+position: relative;
+list-style: none;
+}
+.type_nav > li {
+position: relative;
+display: inline-block;
+list-style: none;
+margin:0;
+}
+.type_nav > li > a {
+display:block;
+font-size:13px;
+text-decoration: none;
+}
+.type_nav > li > a {
+font-weight: 600;
+text-transform: uppercase;
+margin: 8px 8px;
+padding: 0;
+letter-spacing: 0.05em;
+}
+@media (max-width:991px) {
+.type_nav > li.display-block {display:block;}
+}

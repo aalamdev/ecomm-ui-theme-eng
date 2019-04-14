@@ -1,0 +1,28 @@
+.type-heading {
+    margin-top:64px;
+    margin-bottom:12px;
+    text-transform:uppercase;
+    letter-spacing:0.15em;
+    text-align:center;
+    color: #777;
+}
+
+.type-underline {
+    margin-bottom:78px;
+}
+
+.type-underline > div {
+    width: 90px;
+    height:3px;
+    background-color: #666;
+    margin:auto
+}
+
+@media (min-width: 1200px) {
+.col-lg-offset-4p5 {
+        margin-left: 37.5%;
+}
+.col-lg-offset-1p5 {
+        margin-left: 12.5%;
+}
+}

@@ -1,0 +1,28 @@
+<p data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#666" (click)="show_dropdown = !show_dropdown">
+    <span class="pull-right">
+        <span *ngIf="show_dropdown"><span class="glyphicon glyphicon-minus"></span></span>
+        <span *ngIf="!show_dropdown"><span class="glyphicon glyphicon-plus"></span></span>
+    </span>
+    {{filter_name}}
+</p>
+<div *ngIf="show_dropdown==true"
+    style="max-height:250px;overflow:auto">
+    <div class="menu-top-bar" *ngIf="filter_values.length > 10">
+        <div class="form-group has-feedback">
+            <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+            <input class="form-control" type="text" (keyup)="InputKeyEvent($event)"
+                   [(ngModel)]="search_text">
+        </div>
+    </div>
+    <hr />
+    <div *ngIf="filter_values && selected_values_map">
+        <ng-template ngFor let-vname [ngForOf]="filtered_filter_values?filtered_filter_values:filter_values">
+            <div class="filter-value" style="white-space:nowrap">
+                <input type="checkbox" [(ngModel)]="selected_values_map[vname].actual"
+                       (click)="valueChanged(vname)"
+                       [name]="vname"/>
+                <span [class.text-success]="selected_values_map[vname].actual">{{vname}}</span> (<b>{{values[vname]}}</b>)
+            </div>
+        </ng-template>
+    </div>
+</div>

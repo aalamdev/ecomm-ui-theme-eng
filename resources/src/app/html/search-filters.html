@@ -1,0 +1,36 @@
+<!-- Begin FILTERS -->
+<div>
+    <div style="margin-top:10px">
+        <p class="hidden-xs hidden-sm"><b>FILTERS</b></p>
+        <div class="text-center"  *ngIf="!allow_preorders" style="margin-top: 12px; cursor: pointer">
+            <span class="filter-value">
+                <!--<input type="checkbox" [(ngModel)]="show_oos"
+                       (change)="oosChanged()"/> -->
+                <span class="filter-value-label" (click)="oosLabelClicked($event)">
+                    <span class="glyphicon glyphicon-unchecked" *ngIf="!show_oos"></span>
+                    <span class="glyphicon glyphicon-check" *ngIf="show_oos"></span>
+                    <span>Include Sold-outs</span>
+                </span>
+            </span>
+        </div>
+        <div>
+            <div *ngIf="properties && properties_names.length > 0">
+              <ul class="list-group">
+                <ng-template ngFor let-key [ngForOf]="properties_names">
+                <li class="list-group-item">
+                    <search-filter [name]="key" [values]="properties[key]"
+                                   [selected]="params[key]" (changedCallback)="paramChanged($event)">
+                    </search-filter>
+                </li>
+                </ng-template>
+              </ul>
+            </div>
+            <div *ngIf="!properties || properties_names.length == 0" class="text-center">
+               NO FILTERS AVAILABLE
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- /END Filters -->
+

@@ -1,0 +1,52 @@
+.btn-group {
+    position:static;
+}
+
+.dropdown-menu {
+    max-height: 300px;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+}
+
+.menu-top-bar {
+    padding: 12px 24px;
+}
+
+.menu-top-bar input {
+    width: 80%;
+    margin:12px auto;
+    padding-left: 42.5px;
+    padding-right: 12px;
+}
+
+hr {
+    margin: 0px;
+    margin-bottom: 12px;
+}
+
+.menu-top-bar span.glyphicon-search {
+    left: 10%;
+    right: auto;
+}
+
+.filter-value {
+    padding: 6px 6px;
+}
+
+.filter-value-label {
+    width: 90%;
+    display: inline-block;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.filter-value-label > span {
+    display: inline-block;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+}

@@ -1,0 +1,9 @@
+
+<div *ngIf="show">
+<div *ngIf="item_types">
+<div *ngFor="let type of item_types">
+    <search-results-unfiltered-type [type]="type" [show_oos]="show_oos"></search-results-unfiltered-type>
+    <hr/>
+</div>
+</div>
+</div>

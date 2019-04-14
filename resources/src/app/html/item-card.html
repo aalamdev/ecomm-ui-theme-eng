@@ -1,0 +1,31 @@
+<div class="item-is">
+    <a [routerLink]="['/item', item.id]">
+    <div class="card-image-parent">
+        <div class="card-image-dummy"></div>
+        <div class="card-image-holder" [style.background-image]="'url(\'/aalam/stock/item/' + item.id + '/image/_/face_img\')'">
+            <!--<span class="valign-helper"></span><img [src]="'/aalam/stock/item/' + item.id + '/image/_/face_img'"
+                 onerror='this.onerror = null; this.src="/aalam/ecomm/r/s/images/no-image.png"'
+                 [class.img-oos]="!preorder_is_allowed && item.stock <= 0"/>-->
+            <div class="bg" *ngIf="!preorder_is_allowed && item.stock <= 0"></div>
+            <div class="middle" *ngIf="!preorder_is_allowed && item.stock <= 0">
+               <div class="alert alert-danger">
+                  <span class="glyphicon glyphicon-alert"></span> Sold out
+               </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-item-details">
+    <p class="item-name">
+        <span>{{item.name}}</span>
+    </p>
+    <p *ngIf="!item.sale_discount" class="text-center">
+        <b class="item-price">{{_settings.currency_format}}{{item.sale_price}}</b>
+    </p>
+    <p *ngIf="item.sale_discount" class="text-center" style="white-space:nowrap">
+        <b class="item-price">{{_settings.currency_format}}{{(item.sale_price * (1 - item.sale_discount/100)).toFixed(2)}}</b>
+        <span *ngIf="item.sale_discount" class="item-price-bd">{{_settings.currency_format}}{{item.sale_price}}</span>
+        <span *ngIf="item.sale_discount" class="item-discount">-{{item.sale_discount}}%</span>
+    </p>
+    </div>
+    </a>
+</div>

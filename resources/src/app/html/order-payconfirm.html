@@ -1,0 +1,21 @@
+<div style="text-align:center">
+    <a [routerLink]="_bcs.crumbs[0]['link']" [queryParams]="_bcs.crumbs[0]['queryParams']">
+    <img src="/aalam/ecomm/i/brand.img" class="brand-img" alt="Brand image"/>
+    </a>
+</div>
+<br/>
+<div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8" *ngIf="!is_checking">
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>Thank you!</h1>
+            <p>Your order transaction is successfull.</p>
+            <p>
+            You will be notified on your order updates. You can also track your order from the order page.
+            </p>
+            <p><a class="btn btn-primary theme-bg theme-border-color-dark" [routerLink]="['/order', order_id]" role="button">Track Order</a></p>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8" *ngIf="is_checking">
+    <span class="spinner"></span> Please wait, loading your order details
+</div>

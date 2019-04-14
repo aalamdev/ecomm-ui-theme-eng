@@ -1,0 +1,18 @@
+th {
+    padding: 8px;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    font-weight: 100;
+    text-align: center;
+}
+
+tbody {
+    border: None
+}
+
+td {
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+

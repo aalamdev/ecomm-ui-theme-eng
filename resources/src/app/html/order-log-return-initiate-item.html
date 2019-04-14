@@ -1,0 +1,23 @@
+<h4 *ngIf="!log['title']">Return-Initiated</h4>
+<h4 *ngIf="log['title']">{{log.title}}</h4>
+<p *ngIf="log.updated_date" style="font-size: 0.9em"><date [value]="log.updated_date"></date></p>
+<br/>
+<p *ngIf="can_update"><b>Choose items to return</b></p>
+<p *ngIf="!can_update"><b>Returning items</b></p>
+<ng-template ngFor let-item [ngForOf]="order.invoice.items">
+<div class="panel panel-default"
+   *ngIf="can_update || returning_items.indexOf(item.item.id) >= 0"
+   (click)="itemClicked(item.item.id)" style="cursor:pointer">
+    <div class="panel-body" [class.bg-success]="returning_items.indexOf(item.item.id) >= 0">{{item.item.name}}</div>
+</div>
+</ng-template>
+
+<div class="form-group">
+<label>Reason</label>
+<input class="form-control" type="text" [(ngModel)]="reason" style="border: 0px; border-bottom: 1px solid #ddd;">
+</div>
+
+<div *ngIf="alert_msg" class="alert alert-danger">{{alert_msg}}</div>
+<div *ngIf="success_msg" class="alert alert-success">{{success_msg}}</div>
+
+<button class="btn btn-primary theme-bg center-block" (click)="updateOrder()" *ngIf="can_update">Update</button>

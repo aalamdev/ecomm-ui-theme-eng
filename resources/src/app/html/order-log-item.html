@@ -1,0 +1,71 @@
+<div class="timeline-heading">
+    <h4 class="timeline-title" *ngIf="!log['title'] && log.status != 'Paid-Payservice' && log.status != 'New'">{{log.status}}</h4>
+    <h4 class="timeline-title" *ngIf="!log['title'] && log.status == 'New'">Order Created</h4>
+    <h4 class="timeline-title" *ngIf="!log['title'] && log.status == 'Paid-Payservice'">Paid</h4>
+    <h4 class="timeline-title" *ngIf="log['title']">{{log.title}}</h4>
+    <p *ngIf="log.updated_date" style="font-size: 0.9em"><date [value]="log.updated_date"></date></p>
+</div>
+<div class="timeline-body">
+    <div *ngIf="orig_details.length > 0">
+        <small *ngIf="!show_details">
+            <a (click)="show_details=true"><span class="glyphicon glyphicon-plus"></span> Show Details</a>
+        </small>
+        <small *ngIf="show_details">
+            <a (click)="show_details=false"><span class="glyphicon glyphicon-minus"></span> Hide Details</a>
+        </small>
+    </div>
+    <ng-template [ngIf]="show_details">
+    <div *ngFor="let detail of orig_details" class="detail-block orig">
+       <span class="suggestion-key">{{detail.key}}</span>
+       <span *ngIf="!suggestions" class="suggestion-value">
+           <span *ngIf="!isLink(detail.value)">{{detail.value}}</span>
+           <a [href]="detail.value" *ngIf="isLink(detail.value)">{{detail.value}}</a>
+       </span>
+       <input class="suggestion-value" type="text"
+              *ngIf="suggestions" [(ngModel)]="detail.value"/>
+    </div>
+    </ng-template>
+
+    <div *ngIf="suggestions">
+        <div *ngFor="let n of new_details" class="detail-block newd">
+           <div class="suggestion-key" *ngIf="!n.is_mandatory">
+               <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li *ngFor="let s of suggestions" (click)="n.key = s"><a>{{s}}</a></li>
+                </ul>
+               </div><!-- /btn-group -->
+               <input type="text" class="form-control" aria-label="..." [(ngModel)]="n.key">
+           </div>
+           <span class="suggestion-key" *ngIf="n.is_mandatory">{{n.key}}</span>
+           <input class="suggestion-value" type="text" [(ngModel)]="n.value"/>
+        </div>
+    </div>
+
+    <br *ngIf="ok_msg || err_msg"/>
+    <div *ngIf="ok_msg" class="alert alert-success text-center">
+        <span class="close pull-right" (click)="ok_msg = undefined">&times;</span>
+        <span class="glyphicon glyphicon-ok"></span> {{ok_msg}}
+    </div>
+    <div *ngIf="err_msg" class="alert alert-danger text-center">
+        <span class="close pull-right" (click)="err_msg = undefined">&times;</span>
+        <span class="glyphicon glyphicon-remove"></span> {{err_msg}}
+    </div>
+
+    <div *ngIf="suggestions">
+        <br/>
+
+        <div style="text-align:center">
+        <span class="btn btn-sm" (click)="addNew()"><span class="glyphicon glyphicon-plus"></span>
+            Add <span *ngIf="new_details && new_details.length > 0">more</span> details</span>
+        </div>
+
+        <button class="btn btn-primary center-block" (click)="updateDetails()"
+                [class.disabled]="disable_update">
+            <span *ngIf="log.title">Ok</span>
+            <span *ngIf="!log.title">Update</span>
+        </button>
+    </div>
+</div>

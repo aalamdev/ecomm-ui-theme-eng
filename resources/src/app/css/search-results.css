@@ -1,0 +1,99 @@
+.label {
+    margin: 6px 6px;
+    font-size: 85%;
+    font-weight: 300;
+    padding:.2em .6em;
+    color: #666 !important;
+}
+
+.label-border {
+    border: 1px solid #999;
+}
+
+.label > .label-close {
+    cursor: pointer;
+    padding-left: 6px;
+    font-weight: 700;
+}
+
+.search-nav-block {
+    margin-bottom: 24px;
+}
+
+.search-nav-block-label {
+    padding-left: 0;
+    margin-left:6px;
+}
+
+#sort-dropdown {
+    min-width: 0;
+}
+
+#sort-dropdown > li > a{
+    padding: 6px 6px;
+}
+
+.fixed {
+    position:fixed;
+    top:inherit;
+    background-color: white;
+    z-index: 899;
+    padding: 3px 6px 3px 6px;
+    border: 1px solid #ccc;
+}
+
+.fixed-left {
+    left: 0px;
+}
+
+.fixed-right {
+    right: 0px;
+}
+
+.fixed-expanded {
+    border-radius: 0px !important;
+    top: 0px !important;
+    z-index: 901;
+}
+
+.fixed-expanded-heading {
+    height: 62px;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+    padding: 22px 0px;
+    text-align:center;
+    z-index: 992px;
+}
+
+.fixed-full-length {
+    bottom: 0;
+    height: 100%;
+    overflow-y:auto;
+}
+
+.fixed-full-width {
+    right: 0;
+    left: 0;
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    .fixed-expanded {
+        width: 90vw;
+    }
+}
+@media (min-width: 768px) {
+    .fixed-expanded {
+        width: 75vw;
+    }
+}
+@media (min-width: 992px) {
+    .fixed-expanded {
+        width: 60vw;
+    }
+}
+@media (min-width: 1200px) {
+    .fixed-expanded {
+        width: 45vw;
+    }
+}

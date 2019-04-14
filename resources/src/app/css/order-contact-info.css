@@ -1,0 +1,35 @@
+.address-block {
+    border: 1px solid #ddd;
+    padding: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.glyphicon-pencil {
+    cursor: pointer;
+}
+
+.address-block.active {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.container-hscroll > .row {
+    overflow-x:auto;
+    white-space: nowrap;
+}
+
+.container-hscroll > .row > div[class^="col-"] {
+    display: inline-block;
+    float: none;
+}
+
+order-contact-address-condensed {
+    max-width: 70%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: bottom;
+    font-weight: 700;
+}

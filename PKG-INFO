@@ -1,0 +1,16 @@
+statics-url: /aalam/tempeng/s
+statics-path: resources
+entry-point: tempeng_app.app:entry
+permissions:
+ permission-groups:
+   Items: Permissions to manage this app’s items
+ Items:
+   manage: Enable an user to create/update/delete items
+   access: Enable an user to access the items
+hooks:
+ hook:
+   - app: aalam/base
+     url: /aalam/base
+     method: GET
+     handler: tempeng_app.app:hook_entry
+     type: B

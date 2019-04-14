@@ -1,0 +1,117 @@
+<div> <!-- position:fixed;top:0;left:0;right:0;background-color:#fff;z-index:1" -->
+<div style="border-bottom:1px solid #ddd;position:relative">
+  <span class="pull-left nav-item hidden-lg hidden-md" *ngIf="!is_root">
+    <span class="glyphicon glyphicon-menu-hamburger" (click)="show_sidebar=true"></span></span>
+  <a (click)="navigateRoot()" style="display:inline-block;padding:7px 15px">
+    <img src="/aalam/ecomm/i/brand.img" class="brand-img" alt="Brand image"/>
+  </a>
+  <span class="pull-right nav-item">
+        <a class="theme-color top-bar-height" [routerLink]="['/auth']" *ngIf="!contact_details">
+            <span class="glyphicon glyphicon-user"></span>
+        </a>
+        <div *ngIf="contact_details">
+            <div class="btn-group">
+              <a class="theme-color dropdown-toggle top-bar-height" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                 <span class="glyphicon glyphicon-user"></span> <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" style="z-index:993">
+                <li><a>Hi
+                    <b><span style="text-transform:capitalize">
+                        {{contact_details.first_name || contact_details.last_name}}</span></b>!
+                </a></li>
+                <li role="separator" class="divider"></li>
+                <li class="hidden-sm hidden-md hidden-lg">
+                  <a [routerLink]="['/cart']" class="theme-color">
+                    <span class="glyphicon glyphicon-shopping-cart" style="font-size:larger; vertical-align:middle"></span> Cart
+                    <span *ngIf="num_cart_items != undefined" class="badge" style="top:0px">
+                        {{num_cart_items}}
+                    </span>
+                  </a>
+                </li>
+                <li><a [routerLink]="['/orders']">Your orders</a></li>
+                <li><a [routerLink]="['/profile']">Your profile</a></li>
+                <li>
+                    <a (click)="logout()">
+                    <span class="glyphicon glyphicon-log-out" style="font-size:14px"></span>
+                    Logout
+                    </a>
+                </li>
+              </ul>
+            </div>
+        </div>
+   </span>
+   <span class="pull-right nav-item">
+        <a [routerLink]="['/cart']" class="top-bar-height theme-color">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            <span *ngIf="num_cart_items != undefined" class="badge" style="top:0px">
+                {{num_cart_items}}
+            </span>
+        </a>
+   </span>
+
+   <span class="pull-right nav-item nav-item-search">
+        <span class="theme-color glyphicon glyphicon-search hidden-lg hidden-md" (click)="show_searchbox = !show_searchbox"></span>
+        <div [id]="'nav-searchbox-' + rand" class="hidden-xs hidden-sm nav-searchbox" [class.show-search]="show_searchbox">
+            <div class="input-group" style="width:100%">
+                <form class="form" (ngSubmit)="searchName(); show_searchbox = false;">
+                    <input type="search" class="form-control autocomplete top-bar-height"
+                           [id]="'product-search-box-' + rand"
+                           style="margin:auto;border-radius:0;width:calc(100% - 42px);"
+                           [(ngModel)]="search_value"
+                           name="search-value"
+                           placeholder="Search Products"/>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-search" style="font-size:14px"></span>
+                        </button>
+                    </span>
+                </form>
+            </div>
+        </div>
+   </span>
+</div>
+
+<div style="border-bottom:1px solid #ddd"
+    [id]="'sticky-nav-' + rand">
+    <header-nav-categories class="hidden-xs hidden-sm"></header-nav-categories>
+    <div class="hidden-lg hidden-md" *ngIf="is_root">
+      <span class="col-xs-4">
+        <small><span class="glyphicon glyphicon-menu-hamburger"></span> CATEGORIES</small>
+        <br>
+        <span (click)="show_sidebar=true" >
+            <span *ngIf="!params['type']">All</span>
+            <span *ngIf="params['type']" style="max-width:calc(100% - 16px);display:inline-block;vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{params.type}}</span>
+        <span class="caret"></span></span>
+      </span>
+      <span class="col-xs-4">
+        <small style="visibility:hidden">C</small>
+        <br>
+        <span (click)="show_filters = true;"><span class="glyphicon glyphicon-filter"></span> FILTER <span class="caret"></span></span>
+      </span>
+      <span class="hidden-lg hidden-md col-xs-4">
+        <small>
+            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span> SORT
+        </small>
+        <br>
+        <search-sort (notify)="sortSelected($event)"></search-sort>
+      </span>
+      <span class="clearfix"></span>
+    </div>
+</div>
+
+<div class="hidden-lg hidden-md categories-sidebar" [class.show]="show_sidebar" (click)="show_sidebar=false">
+    <p class="text-center">
+        <span class="glyphicon glyphicon-remove" style="font-size:20px;cursor:pointer"></span>
+    </p>
+    <header-nav-categories [is_root]="is_root"></header-nav-categories>
+</div>
+</div>
+
+<div class="hidden-md hidden-lg" [style.display]="show_filters?'block':'none'"
+    style="position:fixed;top:10px;left:10px;right:10px;bottom:10px;overflow:auto;z-index:10;background-color:white;border:1px solid #ddd;padding:6px 12px">
+    <p><b class="pull-right" (click)="show_filters=false"><span class="glyphicon glyphicon-remove"></span></b>
+       <b>FILTERS</b>
+    </p>
+    <search-filters (close)="show_filters=false"></search-filters>
+</div>

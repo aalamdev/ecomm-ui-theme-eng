@@ -1,0 +1,59 @@
+#top-bar {
+    position:fixed;
+    top:0px;
+    background-color: white;
+    width: 100%;
+    z-index: 900;
+}
+
+.top-bar-height {
+    margin-top: 2px !important;
+}
+
+#top-bar > div.container-fluid {
+    padding:12px 0;
+    text-align: center;
+}
+
+#search-holder {
+    width: 100%;
+}
+
+#router-holder {
+    position: fixed;
+    left: 0px;
+    right: 0;
+    background-color: white;
+    width: 100%;
+    top: 0px;
+    bottom: 0;
+    z-index: 5000;
+    -webkit-overflow-scrolling:touch;
+}
+
+#router-holder > div {
+    //transform: translateZ(0);
+    padding: 12px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.router-outlet {
+    margin:12px 0;
+}
+
+.router-show {
+    visibility: visible;
+}
+
+.router-hidden {
+    visibility:hidden;
+}
+
+@media screen and (max-width:991px) {
+    .bottom-offset {
+        margin-bottom: 12px;
+    }
+}
+@media screen and (min-width:992px) {
+}

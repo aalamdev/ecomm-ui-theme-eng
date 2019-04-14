@@ -1,0 +1,16 @@
+<div class="pull-right hidden-sm hidden-xs" style="margin: 10px">
+    SORT: <search-sort (notify)="sortSelected($event)"></search-sort>
+</div>
+<div class="clearfix"></div>
+
+<div class="container-fluid" style="padding: 12px 0px;" *ngIf="params_keys && params_keys.length > 0">
+    <ng-template ngFor let-key [ngForOf]="params_keys">
+    <span *ngIf="key != name_like">
+        <span class="label label-border" *ngIf="k != 'show_oos'" style="display:inline-block;margin:6px auto">
+            {{key}}=<b>{{params[key]}}</b> <span class="label-close" (click)="deleteFilter(key)">X</span>
+        </span>
+    </span>
+    </ng-template>
+</div>
+<search-results-filtered></search-results-filtered>
+<search-results-unfiltered></search-results-unfiltered>

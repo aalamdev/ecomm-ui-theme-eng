@@ -1,0 +1,147 @@
+<div>
+    <div class="center-text">
+        <a [routerLink]="_bcs.crumbs[0]['link']" [queryParams]="_bcs.crumbs[0]['queryParams']">
+        <img src="/aalam/ecomm/i/brand.img" class="brand-img" alt="Brand image"/>
+        </a>
+    </div>
+
+    <div class="container">
+    <div class="row">
+        <div *ngFor="let item of cart_items; let index = index">
+            <div class="col-xs-12 col-lg-offset-2 col-lg-8">
+            <div class="cart-item">
+                <div class="col-xs-3" style="padding: 0px">
+                    <div>
+                    <a class="thumbnail" [routerLink]="['/item', item.item_id]">
+                    <img [src]="'/aalam/stock/item/' + item.item_id + '/image/_/face_img?size=mdpi'"
+                         onerror='this.onerror = null; this.src="/aalam/ecomm/r/s/images/no-image.png"'/>
+                    </a>
+                    </div>
+                    <div class="center-text">
+                        <span (click)="removeCartItem(index)" style="cursor:pointer; font-weight: 700" class="text-danger">
+                            <span class="glyphicon glyphicon-trash"></span> Remove
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-9">
+                    <span></span>
+                    <p><b><a [routerLink]="['/item', item.item_id]">{{item.name}}</a></b></p>
+                    <div style="margin-bottom: 10px;">
+                        <div *ngIf="group_prop_map['' + item.item_id] && item.properties" class="item-props">
+                        <span *ngFor="let prop of group_prop_map['' + item.item_id]">
+                            <small>{{prop}}: <b>{{item.properties[prop]}}</b></small>
+                        </span>
+                        </div>
+                    </div>
+                    <div *ngIf="!item.sale_discount" style="margin-bottom: 10px">
+                        Price: <b class="item-price"> {{_settings.currency_format}} {{item.sale_price}}</b>
+                        <small class="text-danger"
+                               *ngIf="!preorder_is_allowed && low_stock_items.length > 0 && item.low_stock">
+                            <span class="glyphicon glyphicon-alert"></span> Out of stock
+                        </small>
+                    </div>
+                    <div *ngIf="item.sale_discount" style="margin-bottom:10px">
+                        Price:
+                        <span>
+                            <b class="item-price">{{_settings.currency_format}} {{(item.sale_price * (1 - item.sale_discount/100)).toFixed(2)}}</b>
+                        </span>
+                        <span class="item-price-bd">{{_settings.currency_format}} {{item.sale_price}}</span>
+                        <span class="item-discount">-{{item.sale_discount}}%</span>
+                    </div>
+                    <div style="margin-bottom: 10px">
+                        <span *ngIf="update_qty_visible != item.item_id">
+                            <span>
+                                Quantity: <b>{{item.quantity}}</b>
+                                <small class="glyphicon glyphicon-pencil" style="padding-left: 8px; cursor:pointer"
+                                       (click)="update_qty_visible=item.item_id"></small>
+                            </span>
+                        </span>
+                        <form class="form" (ngSubmit)="updateCart(index)" *ngIf="update_qty_visible == item.item_id">
+                            <div class="input-group" >
+                              <input type="tel" class="form-control center-text"
+                                     placeholder="Quantity"
+                                     name="quantity" [(ngModel)]="item.quantity">
+                              <span class="input-group-btn" id="basic-addon2">
+                                <button type="submit" class="btn btn-primary theme-bg">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                              </span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="text-danger" style="margin-bottom: 10px"
+                           *ngIf="!preorder_is_allowed && low_stock_items.length > 0 && item.low_stock">
+                        <span class="glyphicon glyphicon-alert"></span> Out of stock
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div> <!-- cart-item -->
+            </div> <!-- col-xs-* -->
+            <div class="clearfix"></div>
+        </div> <!-- *ngFor -->
+
+        <div *ngIf="contact_details && cart_items && cart_items.length > 0" class="col-md-offset-2 col-lg-offset-2"
+             style="padding:32px 0 0 0"> <!-- Coupon -->
+            <div class="form-group col-xs-12 col-md-4 col-lg-3">
+                <label class="control-label">Coupon Code:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Coupon Code" [(ngModel)]="coupon_code">
+                    <span class="input-group-btn" [class.vhidden]="coupon_code == _cs.coupon_code">
+                        <button class="btn btn-primary theme-bg"
+                            type="button" (click)="applyCoupon()" [class.disabled]="disable_apply_coupon">
+                            <span class="glyphicon glyphicon-ok"></span> Apply
+                        </button>
+                    </span>
+                </div>
+                <div *ngIf="_cs.coupon_status" class="help-block">
+                    {{_cs.coupon_status.description}}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <p *ngIf="coupon_alert_msg" style="padding:15px;">
+                <span class="alert alert-danger">
+                    <span class="glyphicon glyphicon-remove"></span> {{coupon_alert_msg}}
+                </span>
+            </p>
+        </div><!-- /End Coupon -->
+
+    </div> <!-- row -->
+    </div> <!-- container -->
+
+    <hr/>
+    <div id="cart_summary_block"
+         class="center-block center-text summary-block">
+        <br />
+        <p *ngIf="total_price != undefined" style="font-size:larger">
+            <b>Price:</b>
+            <span class="item-price">
+                <b>{{_settings.currency_format}} {{total_price.toFixed(2)}}</b>
+            </span>
+        </p>
+        <p *ngIf="total_price"><small><i>Taxes and delivery charges extra</i></small></p>
+        <br/>
+        <div class="alert alert-danger" [innerHTML]="order_alert_msg" *ngIf="order_alert_msg"></div>
+        <button *ngIf="total_price && !show_open_order_confirmation" class="btn btn-danger" type="button"
+                [class.disabled]="disable_checkout || (!preorder_is_allowed && low_stock_items.length > 0)"
+                (click)="checkOut()">Place Order</button>
+
+        <div *ngIf="show_open_order_confirmation && open_order" style="width: 320px; margin:auto">
+            <span style="margin-bottom: 12px; display: inline-block">
+                You have an open order <b>#{{open_order.id}}</b> created on <b>{{open_order.created_date}}</b>.
+                <br/>
+                Do you wish to add these items to that order?
+            </span>
+            <br/>
+            <button (click)="addItemsToOrder()" [class.disabled]="disable_checkout" class="btn btn-warning">
+                Yes, add to order #{{open_order.id}}
+            </button>
+            <button (click)="checkoutForce()" [class.disabled]="disable_checkout" class="btn btn-danger">
+                No, create new order
+            </button>
+            <br/>
+            <span class="help-block">
+                If you want these to be shipped to the same address, adding to old order might help reduce shipping charges
+            </span>
+        </div>
+    </div>
+</div>

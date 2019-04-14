@@ -1,0 +1,19 @@
+<div class="col-xs-12 col-md-6 panel panel-default">
+<div class="panel-body">
+<p><b>Change your name:</b></p>
+<form class="form" (ngSubmit)="updateName()">
+  <div class="form-group">
+    <label for="first_name">First name</label>
+    <input type="text" name="first_name" class="form-control" [(ngModel)]="first_name">
+  </div>
+  <div class="form-group">
+    <label for="last_name">Last name</label>
+    <input type="text" name="last_name" class="form-control" [(ngModel)]="last_name">
+  </div>
+  <button type="submit" class="btn btn-primary theme-bg theme-border-color-dark center-block">
+    <span class="glyphicon glyphicon-ok"></span> Update
+  </button>
+</form>
+</div> <!-- /END panel-body -->
+</div> <!-- /END col-xs-12, panel -->
+<div class="clearfix"></div>

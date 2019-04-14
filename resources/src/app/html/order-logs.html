@@ -1,0 +1,65 @@
+<div>
+    <ul class="timeline">
+        <li class="timeline" *ngIf="new_status">
+            <div class="timeline-badge"></div>
+            <div class="timeline-panel">
+                <order-log-item
+                 *ngIf="new_status != 'Paid' && new_status != 'Return-Initiated'"
+                 [log]="{'status': new_status, 'title': status_info_map[new_status].title}"
+                 [suggestions]="status_info_map[new_status].suggestions"
+                 [order_id]="order_id"></order-log-item>
+                <order-log-paid-item
+                 *ngIf="new_status == 'Paid'"
+                 (codNotify)="codNotify($event)"
+                 [log]="{'status': new_status, 'title': status_info_map[new_status].title}"
+                 [suggestions]="status_info_map[new_status].suggestions"
+                 [order]="order"
+                 [order_id]="order_id"></order-log-paid-item>
+                <order-log-return-initiate-item
+                 *ngIf="new_status == 'Return-Initiated'"
+                 [log]="{'status': new_status, 'title': status_info_map[new_status].title}"
+                 [suggestions]="status_info_map[new_status].suggestions"
+                 [order]="order"
+                 [order_id]="order_id"></order-log-return-initiate-item>
+            </div>
+        </li>
+        <ng-template ngFor [ngForOf]="order.logs" let-log="$implicit" let-index="index">
+        <li class="timeline" *ngIf="show_more || (!new_status && index == 0)">
+            <div class="timeline-badge"></div>
+            <div class="timeline-panel" *ngIf="!status_info_map[log.status]">
+                <order-log-item [log]="log"
+                                [order_id]="order_id"></order-log-item>
+            </div>
+            <div class="timeline-panel" *ngIf="log.status != 'Return-Initiated' &&
+                                               status_info_map[log.status]">
+                <order-log-item *ngIf="user_perms && user_perms.orders_manage"
+                                [log]="log"
+                                [suggestions]="status_info_map[log.status].suggestions"
+                                [order_id]="order_id"></order-log-item>
+                <order-log-item *ngIf="user_perms && !user_perms.orders_manage"
+                                [log]="log"
+                                [suggestions]="undefined"
+                                [order_id]="order_id"></order-log-item>
+            </div>
+            <div class="timeline-panel" *ngIf="log.status == 'Return-Initiated'">
+                <order-log-return-initiate-item
+                 [log]="log"
+                 [latest_status]="latest_status"
+                 [suggestions]="status_info_map[log.status].suggestions"
+                 [order]="order"
+                 [order_id]="order_id"></order-log-return-initiate-item>
+            </div>
+        </li>
+        </ng-template>
+    </ul>
+    <p *ngIf="!show_more && ((new_status && order.logs.length > 0) || (!new_status && order.logs.length > 1))">
+        <a (click)="show_more=true">
+          <span class="glyphicon glyphicon-chevron-down"></span> Show More
+        </a>
+    </p>
+    <p *ngIf="show_more">
+        <a (click)="show_more=false">
+          <span class="glyphicon glyphicon-chevron-up"></span> Show Less
+        </a>
+    </p>
+</div>

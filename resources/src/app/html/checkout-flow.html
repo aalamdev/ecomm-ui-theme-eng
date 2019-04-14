@@ -1,0 +1,67 @@
+<div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8" *ngIf="!contact_details">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+     <div>YOUR MOBILE NUMBER</div>
+    </div>
+    <div class="panel-body">
+        <form class="form" (ngSubmit)="mobileNumberEntered()">
+            <br/>
+            <div class="form-group">
+                <input class="form-control" type="tel" required name="mobilenum" [(ngModel)]="mobile_number"
+                    placeholder="Mobile Number e.g, 9566661133"/>
+            </div>
+            <br/>
+            <div *ngIf="alert_msg" class="alert alert-danger" [innerHTML]="alert_msg"></div>
+            <br *ngIf="alert_msg"/>
+            <button class="btn btn-primary theme-bg theme-border-color-dark center-block"
+                type="submit" [class.disabled]="disable_button">
+                <span class="glyphicon glyphicon-chevron-right"></span> Next</button>
+        </form>
+    </div>
+    </div>
+</div>
+
+<div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8"
+    *ngIf="contact_details && !contact_details.first_name && !contact_details.last_name">
+  <div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">NAME &amp; OTHER DETAILS</div>
+  </div>
+  <div class="panel-body">
+    <form (ngSubmit)="nameDetailsEntered()">
+      <p class="help-block">Whom should we ship to? (<b>*</b>) field is mandatory</p>
+      <div class="form-group">
+        <label for="First name">First name <span class="text-danger">*</span></label>
+        <input type="text" name="first_name" class="form-control" [(ngModel)]="first_name" placeholder="" required>
+      </div>
+      <div class="form-group">
+        <label for="Last name">Last name</label>
+        <input type="text" name="last_name" class="form-control" [(ngModel)]="last_name" placeholder="">
+      </div>
+      <br/>
+      <div class="form-group">
+        <label for="">Email id</label>
+        <input type="email" name="email_id" class="form-control" [(ngModel)]="email_id" placeholder="e.g, hello@aalam.io">
+      </div>
+      <br/>
+      <div *ngIf="alert_msg" class="alert alert-danger" [innerHTML]="alert_msg"></div>
+      <br *ngIf="alert_msg"/>
+      <button type="submit" class="btn btn-primary theme-bg theme-border-color-dark center-block" [class.disabled]="disable_button">
+        <span class="glyphicon glyphicon-chevron-right"></span> Next</button>
+      <br />
+    </form>
+  </div>
+  </div>
+</div>
+
+<div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8"
+    *ngIf="contact_details && contact_details.first_name && (!contact_details.addresses || contact_details.addresses.length == 0)">
+  <div class="panel">
+  <div class="panel-heading">
+    <div class="panel-title">YOUR SHIPPING ADDRESS</div>
+  </div>
+  <div class="panel-body">
+    <order-contact-address-edit [contact]="contact_details" (addressEditedCb)="addressEditedCb()"></order-contact-address-edit>
+  </div>
+  </div>
+</div>

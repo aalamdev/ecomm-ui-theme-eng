@@ -1,0 +1,33 @@
+<div style="padding:3px;background-color:#d25551;" class="text-center" *ngIf="_ecomms.emergency_msg && _ecomms.emergency_msg.length && !hide_emergency_msg">
+    <span (click)="hide_emergency_msg = true" class="pull-right close" style="color:white;opacity:0.6;">&times;</span>
+    <small style="color:white">{{_ecomms.emergency_msg}}</small>
+</div>
+<header-nav [is_root]="true"></header-nav>
+
+<div id="search-holder">
+    <div class="hidden-xs hidden-sm col-md-3">
+        <search-filters></search-filters>
+    </div>
+    <div class="col-xs-12 col-md-9">
+        <search-results></search-results>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div id="router-holder" [class.router-show]="url != '/'" [class.router-hidden]="url == '/'">
+    <div [style.padding.px]="is_item_url?0:12">
+    <ol *ngIf="_bcs.crumbs && !is_item_url" class="breadcrumb">
+        <li *ngFor="let c of _bcs.crumbs; let index = index"
+            [ngClass]="{active: index==(_bcs.crumbs.length - 1)}">
+            <ng-template [ngIf]="index!=(_bcs.crumbs.length - 1)">
+                <a [routerLink]="c.link" [queryParams]="c.queryParams">{{c.name}}</a>
+            </ng-template>
+            <ng-template [ngIf]="index==(_bcs.crumbs.length - 1)">
+                {{c.name}}
+            </ng-template>
+        </li>
+    </ol>
+    <div class="router-outlet" [style.margin-top.px]="is_item_url?0:12">
+    <router-outlet></router-outlet>
+    </div>
+    </div>
+</div>

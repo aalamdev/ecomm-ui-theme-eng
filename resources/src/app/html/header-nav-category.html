@@ -1,0 +1,23 @@
+<ng-template ngFor [ngForOf]="ObjectCls.keys(group)" let-key="$implicit">
+    <ng-template [ngIf]="key == '__types__'">
+        <ng-template ngFor [ngForOf]="group['__types__']" let-type="$implicit">
+            <li class="category">
+                <a class="theme-color" (click)="navigate(item_types_map[type])">{{item_types_map[type]}}
+                <span class="clearfix"></span>
+                </a>
+            </li>
+        </ng-template>
+    </ng-template>
+    <ng-template [ngIf]="key != '__types__'">
+    <li [class.dropdown-submenu]="!is_root" (click)="menuItemClicked($event)">
+        <a class="dropdown-toggle theme-color" data-toggle="dropdown"><b>{{key}}</b>
+            <b *ngIf="is_root"><span class="caret"></span></b>
+        </a>
+        <ul class="dropdown-menu extra-padding" [group]="group[key]"
+            [group_name]="key" [item_types_map]="item_types_map"
+            (notify)="navigate($event)"
+            category-group>
+        </ul>
+    </li>
+    </ng-template>
+</ng-template>

@@ -1,0 +1,36 @@
+<div class="text-center">
+    <div *ngIf="!is_oos || (is_oos && pruning_done)">
+        <button class="btn btn-danger" (click)="payButtonClicked()">Pay
+            <span *ngIf="!is_oos">Now</span>
+            <span *ngIf="pruning_done">{{_settings.currency_format}}{{order.invoice.total}}</span>
+        </button>
+        <button class="btn btn-warning" *ngIf="_cod_enabled == true" (click)="codButtonClicked()">Cash On Delivery</button>
+    </div>
+    <div *ngIf="is_oos && !pruning_done">
+        <p><span class="glyphicon glyphicon-info-sign"></span> Stock count of following products has changed since you have checked out.</p>
+        <div *ngFor="let item of oos_items" class="col-xs-6 col-md-4">
+            <div class="panel panel-default">
+            <div class="panel-body">
+                <a class="thumbnail" [routerLink]="['/item', item.id]" style="padding:0px;float:left">
+                <img [src]="'/aalam/stock/item/' + item.id + '/image/_/face_img?size=ldpi'" style="max-width:100px;max-height: 100px"
+                    onerror='this.onerror = null; this.src="/aalam/ecomm/r/s/images/no-image.png"'/>
+                </a>
+                <p>{{item.name}}</p>
+                <p *ngIf="item.stock > 0">Only <b class="text-danger">{{item.stock}}</b> available</p>
+                <p *ngIf="item.stock <= 0" class="text-danger">Not Available!</p>
+                <span class="clearfix"></span>
+            </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div>
+            <span *ngIf="can_prune">
+            <button (click)="pruneOrder()" class="btn btn-info" [class.disabled]="is_pruning">Order in-stock products only</button>
+            <span *ngIf="!is_pruning">or</span>
+            </span>
+
+            <button class="btn btn-default" *ngIf="!is_pruning"><a (click)="cancelOrder()">Cancel Order</a></button>
+        </div>
+    </div>
+<div>
+

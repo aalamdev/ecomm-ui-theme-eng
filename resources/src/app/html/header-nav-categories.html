@@ -1,0 +1,13 @@
+<ul class="type_nav" *ngIf="!category_group">
+    <ng-template ngFor [ngForOf]="item_types" let-type="$implicit">
+    <li *ngIf="_ecomms.invalid_item_types_obj[type.id] == null" [class.display-block]="is_root">
+        <a class="theme-color" (click)="navigateType(type.type)">{{type.type}}</a>
+    </li>
+    </ng-template>
+</ul>
+
+<ul class="nav navbar-nav" style="margin:0px" [group]="category_group" [group_name]="'____'" [item_types_map]="item_types_map"
+    category-group *ngIf="category_group && item_types_map" (notify)="navigateType($event)">
+</ul>
+<span class="clearfix"></span>
+

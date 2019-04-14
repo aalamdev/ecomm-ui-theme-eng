@@ -1,0 +1,23 @@
+<div>
+<h3 class="type-heading">
+    <a [routerLink]="['/']" [queryParams]="{'type': type}" style="color:inherit;cursor:pointer">{{type}}</a>
+</h3>
+<div class="type-underline">
+    <div></div>
+</div>
+<div *ngIf="items" class="container-fluid">
+    <div class="row text-center" style="padding:0px;">
+        <ng-template ngFor [ngForOf]="items" let-item="$implicit" let-index="index">
+            <div class="card-width card-width-nofloat">
+                <item-card [item]="item"></item-card>
+            </div>
+        </ng-template>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<p class="text-center" *ngIf="items && items.length == 4">
+    <a [routerLink]="['/']" [queryParams]="{'type': type}" class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon-plus"></span> Load more
+    </a>
+</p>
+</div>

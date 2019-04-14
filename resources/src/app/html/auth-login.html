@@ -1,0 +1,11 @@
+<div>
+<h3>Login</h3>
+<form (ngSubmit)="register()">
+  <div class="form-group">
+    <input type="text" name="mobile" class="form-control" [(ngModel)]="value" placeholder="Mobile Number or Email Id">
+  </div>
+  <button type="submit" class="btn btn-primary theme-bg theme-border-color-dark center-block">Login</button>
+  <br />
+  <div *ngIf="alert_msg" class="alert alert-danger" [innerHTML]="alert_msg"></div>
+</form>
+</div>

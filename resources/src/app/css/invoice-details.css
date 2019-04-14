@@ -1,0 +1,47 @@
+.invoice-addons {
+    //font-style: italic;
+}
+
+.invoice-addons > span:first-child {
+    text-align: right;
+}
+
+.invoice-addons > span:last-child {
+    text-align: left;
+}
+
+.item-price {
+    padding: 12px 6px;
+    padding-left: 0px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.item-price-bd {
+    text-decoration: line-through;
+    padding: 12px 6px
+}
+
+.item-discount {
+    color: orange;
+    padding: 12px 6px;
+}
+
+div.item-props {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+div.item-props > span {
+    padding: 0px 6px;
+    border-right: 1px solid #ddd;
+}
+
+div.item-props > span:first-child {
+    padding-left: 0px;
+}
+
+div.item-props > span:last-child {
+    padding-right: 0px;
+    border-right: 0px;
+}

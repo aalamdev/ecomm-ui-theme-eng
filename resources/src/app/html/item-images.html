@@ -1,0 +1,23 @@
+<div *ngIf="images_spec && images_spec.length" style="position:relative">
+    <div class="image-holder" style="position:relative" [class.overlay]="size == 'xxxhdpi'">
+        <img [src]="images_spec[current_index].src + '?size=' + size"
+             (click)="imageClicked()"/>
+        <div class="nav-holder" [class.overlay]="size == 'xxxhdpi'">
+            <span (click)="navPrev()" class="nav-prev"><span class="glyphicon glyphicon-chevron-left"></span></span>
+            <span (click)="navNext()" class="nav-next"><span class="glyphicon glyphicon-chevron-right"></span></span>
+        </div>
+    </div>
+    <div class="images-footer" [class.overlay]="size == 'xxxhdpi'">
+        <p *ngIf="images_spec[current_index].description">{{images_spec[current_index].description}}</p>
+        <div class="thumbnails-holder" *ngIf="images_spec.length > 1">
+            <div *ngFor="let img of images_spec; let index = index"
+                 [style.background-image]="'url(\'' + images_spec[index].src + '?size=ldpi\')'"
+                 [class.active]="current_index == index"
+                 (click)="current_index = index"></div>
+        </div>
+    </div>
+</div>
+<div class="image-holder" *ngIf="images_spec && !images_spec.length">
+    <!--<img src="/aalam/ecomm/r/s/images/no-image.png">-->
+    <div style="width: 100%; padding-top:100%"></div>
+</div>

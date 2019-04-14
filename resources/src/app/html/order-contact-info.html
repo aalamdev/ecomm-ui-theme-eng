@@ -1,0 +1,62 @@
+<div *ngIf="contact">
+    <!-- On record address -->
+    <div *ngIf="status == 'Cancelled'">
+        <p>CREATED BY: <b>{{contact.first_name}} {{contact.last_name}}</b></p>
+    </div>
+    <div *ngIf="shipping_address_id && !edit_name">
+        <span class="pull-left">DELIVERING TO: </span>
+        <div style="width:auto;overflow:hidden;padding-left:6px">
+            <span>
+                <b style="padding-right: 8px">{{contact.first_name}} {{contact.last_name}}</b>
+                <small><span (click)="edit_name=true" class="glyphicon glyphicon-pencil"></span></small>
+            </span>
+            <br/>
+            <div>
+            <order-contact-address-condensed *ngIf="edit_address_id==undefined"
+                                   [address]="contact_address"></order-contact-address-condensed>
+            <span *ngIf="status == 'New' || status == 'Paid' && edit_address_id == undefined">
+                <small class="glyphicon glyphicon-pencil"
+                       (click)="shipping_address_id=undefined"
+                       style="padding-left: 6px"></small>
+            </span>
+            </div>
+         </div>
+    </div>
+
+    <div *ngIf="edit_name">
+        <order-contact-name-edit [contact]="contact"
+                 (nameEditedCb)="edit_name = false"></order-contact-name-edit>
+    </div>
+
+    <!-- Has to choose one to be set on record -->
+    <div class="panel panel-default"
+         *ngIf="!shipping_address_id && contact.addresses.length > 0 && edit_address_id==undefined && status != 'Cancelled'">
+    <div class="panel-body">
+    <div class="container-fluid container-hscroll">
+        <div class="row">
+        <p><b>Choose an address:</b></p>
+        <div class="col-xs-12 col-md-6 col-lg-4" *ngFor="let address of contact.addresses; let index=index">
+            <div (click)="addressChosen(index)" class="address-block"
+                 [class.active]="orig_shipping_address_id == address.id">
+                <order-contact-address [address]="address.value"></order-contact-address>
+            </div>
+            <p>
+                <button class="btn btn-default" (click)="edit_address_id=address.id">Edit</button>
+                <button class="btn btn-danger" (click)="deleteAddress(index)"
+                        *ngIf="orig_shipping_address_id != address.id">Delete</button>
+            </p>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-4">
+            <button class="btn btn-primary theme-bg theme-border-color-dark" (click)="edit_address_id=0">Add New</button>
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Edit an address component -->
+    <div *ngIf="edit_address_id != undefined">
+        <order-contact-address-edit [contact]="contact" [edit_address_id]="edit_address_id"
+            (addressEditedCb)="addressEdited($event)"></order-contact-address-edit>
+    </div>
+</div>

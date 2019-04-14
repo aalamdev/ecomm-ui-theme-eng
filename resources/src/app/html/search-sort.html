@@ -1,0 +1,13 @@
+<div class="btn-group" style="margin-bottom:6px">
+    <button class="btn btn-xs btn-default" style="border-radius:0px;width:calc(100% - 28px)" type="button">
+        <span *ngIf="index >= 0">{{sorter_map[index].name}}</span>
+    </button>
+    <button aria-expanded="false" aria-haspopup="true" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" style="border-radius:0px" type="button">
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-right" style="border-radius:0px">
+        <ng-template ngFor [ngForOf]="sorter_map" let-i="index" let-item="$implicit">
+            <li (click)="selected(i)" *ngIf="i != index"><a>{{sorter_map[i].name}}</a></li>
+        </ng-template>
+    </ul>
+</div>

@@ -1,0 +1,50 @@
+<div class="col-xs-12 col-md-8 col-lg-6 panel panel-default" *ngIf="contact">
+<div class="panel-body">
+<p><b>Enter your address details:</b></p>
+<form class="form" (ngSubmit)="buttonClicked($event)">
+  <div class="form-group">
+    <label for="first_name">Line 1 (Door no, building name)</label>
+    <input type="text" name="line1" class="form-control" [(ngModel)]="line1">
+  </div>
+  <div class="form-group">
+    <label for="last_name">Line 2 (Street name)</label>
+    <input type="text" name="line2" class="form-control" [(ngModel)]="line2">
+  </div>
+  <div class="form-group">
+    <label for="last_name">Line 3 (Locality)</label>
+    <input type="text" name="line3" class="form-control" [(ngModel)]="line3">
+  </div>
+  <div class="form-group">
+    <label for="last_name">Line 4 (Nearby landmark)</label>
+    <input type="text" name="line4" class="form-control" [(ngModel)]="line4">
+  </div>
+  <div class="form-group">
+    <label for="last_name">City <span class="mandatory-input">*</span></label>
+    <input type="text" name="city" class="form-control" [(ngModel)]="city">
+  </div>
+  <div class="form-group">
+    <label for="last_name">State / Province <span class="mandatory-input">*</span></label>
+    <input type="text" name="state" class="form-control" [(ngModel)]="state">
+  </div>
+  <div class="form-group">
+    <label for="last_name">Country</label>
+    <input type="text" name="country" class="form-control" [(ngModel)]="country">
+  </div>
+  <div class="form-group">
+    <label for="last_name">Post code / Zip code<span class="mandatory-input">*</span></label>
+    <input type="text" name="postal_code" class="form-control" [(ngModel)]="postal_code">
+  </div>
+  <div class="alert alert-danger" [innerHTML]="alert_msg" *ngIf="alert_msg"></div>
+  <button type="submit" class="btn btn-primary theme-bg">
+    <span class="glyphicon glyphicon-plus" *ngIf="!address_id"></span>
+    <span class="glyphicon glyphicon-ok" *ngIf="address_id"></span>
+    {{button_text}}
+  </button>
+  <button type="button" class="btn btn-default" (click)="cancelClicked()"
+          *ngIf="!address_id && contact.addresses.length > 0">
+    <span class="glyphicon glyphicon-remove"></span> Cancel
+  </button>
+</form>
+</div> <!-- /END panel-body -->
+</div> <!-- /END col-xs-12, panel -->
+<div class="clearfix"></div>

@@ -1,0 +1,19 @@
+.payment-footer {
+    //height: 64px;
+    position: fixed;
+    bottom: 0px;
+    padding: 16px 0px;
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 60vh;
+    overflow:auto;
+}
+
+.extra-margin {
+    margin-bottom: 68px;
+}
+
+.btn-detail {
+    background-color: transparent !important;
+    color: #337ab7 !important;
+}

@@ -1,0 +1,25 @@
+<div>
+<h3>Register account</h3>
+<form (ngSubmit)="register()">
+  <div class="form-group">
+    <label for="First name">First name <span class="mandatory-input">*</span></label>
+    <input type="text" name="first_name" class="form-control" [(ngModel)]="first_name" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="Last name">Last name</label>
+    <input type="text" name="last_name" class="form-control" [(ngModel)]="last_name" placeholder="">
+  </div>
+  <br/>
+  <div class="form-group">
+    <label for="mobile">Mobile number <span class="mandatory-input">*</span></label>
+    <input type="tel" name="mobile" class="form-control" [(ngModel)]="mobile" placeholder="e.g, 9366661133">
+  </div>
+  <div class="form-group">
+    <label for="">Email id</label>
+    <input type="email" name="email_id" class="form-control" [(ngModel)]="email" placeholder="e.g, user@test.test">
+  </div>
+  <button type="submit" class="btn btn-primary theme-bg theme-border-color-dark center-block">Register</button>
+  <br />
+  <div *ngIf="alert_msg" class="alert alert-danger" [innerHTML]="alert_msg"></div>
+</form>
+</div>

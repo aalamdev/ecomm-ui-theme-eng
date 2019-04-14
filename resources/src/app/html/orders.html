@@ -1,0 +1,85 @@
+<div style="text-align:center">
+    <a [routerLink]="_bcs.crumbs[0]['link']" [queryParams]="_bcs.crumbs[0]['queryParams']">
+    <img src="/aalam/ecomm/i/brand.img" class="brand-img" alt="Brand image"/>
+    </a>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+        <span> Filter by: </span>
+
+        <span>
+            <input type="checkbox" name="unpaid-check" (change)="unpaidFilterChanged()" [(ngModel)]="unpaid_filter">
+            <label for="unpaid-check" style="font-weight: 100">Unpaid</label>
+        </span> <!-- Unpaid-filters -->
+
+        <span>
+            <div class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Order Status <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" style="padding: 12px 6px;">
+                <li *ngFor="let filter of status_filters">
+                    <input type="checkbox" [name]="'status-' + filter"
+                           (change)="statusFilterChanged(filter)"
+                           [(ngModel)]="status_filter_map[filter].model_value">
+                    <label [for]="'status-' + filter" style="font-weight: 100">{{filter}}</label>
+                </li>
+            </ul>
+            </div>
+        </span> <!-- status-filters -->
+
+        <span>
+            <div class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Price <span class="caret"></span>
+            </a>
+            <div class="dropdown-menu" style="padding: 12px 6px;">
+                <div class="form-group">
+                    <label class="control-label">From:</label>
+                    <input type='text' class="form-control" [(ngModel)]="from_price" (focusout)="fromPriceChanged()"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Upto:</label>
+                    <input type='text' class="form-control" [(ngModel)]="upto_price" (focusout)="toPriceChanged()"/>
+                </div>
+            </div>
+            </div>
+        </span> <!-- price filters -->
+    </div>
+  </div> <!-- row -->
+</div> <!-- container -->
+
+<hr />
+
+<table class="table table-responsive" *ngIf="orders">
+    <thead>
+        <th>Id</th>
+        <th>Current status</th>
+        <th (click)="headerClicked('created_date')">
+            <a>Date 
+                <span class="glyphicon glyphicon-arrow-up" *ngIf="sorter == 'created_date.asc'"></span>
+                <span class="glyphicon glyphicon-arrow-down" *ngIf="sorter == 'created_date.desc'"></span>
+            </a>
+        </th>
+        <th (click)="headerClicked('price')">
+            <a>Price
+                <span class="glyphicon glyphicon-arrow-up" *ngIf="sorter == 'price.asc'"></span>
+                <span class="glyphicon glyphicon-arrow-down" *ngIf="sorter == 'price.desc'"></span>
+            </a>
+        </th>
+    </thead>
+
+    <tr *ngFor="let order of orders" (click)="navigateOrder(order.id)" style="cursor:pointer">
+        <td>{{order.id}}</td>
+        <td>{{order.status}}</td>
+        <td>{{order.created_date}}</td>
+        <td>{{order.price}}</td>
+    </tr>
+</table>
+
+<br />
+<button class="btn btn-primary theme-bg center-block" (click)="loadMore()" *ngIf="show_load_more">Load More</button>

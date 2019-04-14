@@ -1,0 +1,84 @@
+<div *ngIf="is_priv_app">
+    <br/>
+    <div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+    <p>
+      <a [routerLink]="['/']"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+    </p>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div style="text-align:center">
+    <a [routerLink]="_bcs.crumbs[0]['link']" [queryParams]="_bcs.crumbs[0]['queryParams']">
+    <img src="/aalam/ecomm/i/brand.img" class="brand-img" alt="Brand image"/>
+    </a>
+</div>
+
+<div *ngIf="order_details">
+  <div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+  <div class="panel panel-default">
+   <div class="panel-heading">
+    <span class="pull-right" style="font-size: 16px; padding-left: 6px">
+        <small style="font-size:smaller">Total:</small> <b class="text-danger">{{_settings.currency_format}}{{order_details.price}}</b>
+    </span>
+    <b class="panel-title" style="padding-right: 6px">ORDER DETAILS</b>
+   </div>
+   <div class="panel-body">
+      <p>ORDER STATUS: <b>{{latest_status}}</b></p>
+       <!-- The contact details go here -->
+       <order-contact-info [contact_id]="order_details.contact_id"
+                           [order]="order_details"
+                           [order_id]="order_id"
+                           [shipping_address_id]="shipping_address_id"
+                           [orig_shipping_address_id]="shipping_address_id"
+                           (shippingAddressChanged)="addrChangedCb($event)"
+                           [status]="latest_status"></order-contact-info>
+    </div> <!-- /END .panel-body -->
+  </div> <!-- /END Order-details .panel -->
+  </div> <!-- /END col-xs-12 -->
+
+  <div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+  <div class="panel panel-default">
+   <div class="panel-heading">
+    <b class="panel-title">ORDERED ITEMS</b>
+   </div>
+   <div class="panel-body">
+        <div>
+          <invoice-details [order]="order_details"></invoice-details>
+        </div>
+        <div class="clearfix"></div>
+   </div> <!-- /END .panel-body -->
+  </div> <!-- /END Ordered items .panel -->
+  </div> <!-- /END col-xs -->
+
+  <div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+  <div class="panel panel-default"
+       *ngIf="is_priv_app || latest_status != 'New' || cod">
+   <div class="panel-heading">
+     <b class="panel-title">ORDER TRACKING</b>
+   </div>
+   <div class="panel-body">
+          <order-logs [order]="order_details" [order_id]="order_id"
+                      [latest_status]="latest_status"></order-logs>
+   </div>
+  </div> <!-- /END Track order panel -->
+  </div> <!-- /END col-xs-12 -->
+
+  <div class="clearfix"></div>
+  <div class="text-center"
+       [class.extra-margin]="!is_priv_app && latest_status == 'New' && !cod">
+    <br/>
+    <a *ngIf="latest_status == 'New' || latest_status == 'Paid'" class="btn btn-primary btn-detail" (click)="cancelOrder()">
+       Cancel order ?
+    </a>
+    <br/>
+  </div>
+  <div *ngIf="!is_priv_app && latest_status == 'New' && !cod"
+       class="payment-footer col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+      <order-log-paid-item
+       (codNotify)="codNotify($event)"
+       (cancelOrder)="cancelOrder()"
+       (invoiceChanged)="order_details.invoice = $event;order_details.price = order_details.invoice.total"
+       [order]="order_details"
+       [order_id]="order_id"></order-log-paid-item>
+  </div>
+</div>

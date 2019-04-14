@@ -1,0 +1,1 @@
+"C:\Program Files\7-Zip\7z.exe" a -ttar dummy tempeng_app PKG-INFO setup.py resources -xr!resources\node_modules -so | "C:\Program Files\7-Zip\7z.exe" -si -tgzip a tempengapp.tgz

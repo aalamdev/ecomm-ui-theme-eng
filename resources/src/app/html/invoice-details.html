@@ -1,0 +1,69 @@
+<div *ngFor="let item of order.invoice.items" class="col-xs-12" style="margin-bottom:8px">
+    <div class="col-xs-3" style="padding:0px">
+        <a class="thumbnail" [routerLink]="['/item', item.item.id]" style="padding:0px">
+        <img [src]="'/aalam/stock/item/' + item.item.id + '/image/_/face_img'"
+             onerror='this.onerror = null; this.src="/aalam/ecomm/r/s/images/no-image.png"'/>
+        </a>
+    </div>
+    <div class="col-xs-6">
+        <a [routerLink]="['/item', item.item.id]"><p class="item-name">{{item.item.name}}</p></a>
+
+        <p>
+            Price:
+            <span *ngIf="item.item.discount_per_item">
+               <b class="item-price">{{_settings.currency_format}}{{(item.item.price_per_item * (1 - item.item.discount_per_item/100)).toFixed(2)}}</b>
+            </span>
+            <span *ngIf="item.item.discount_per_item" class="item-price-bd">{{_settings.currency_format}} {{item.item.price_per_item}}</span>
+            <span *ngIf="!item.item.discount_per_item">
+               <b class="item-price">{{_settings.currency_format}}{{item.item.price_per_item}}</b>
+            </span>
+            <span *ngIf="item.item.discount_per_item" class="item-discount">-{{item.item.discount_per_item}}%</span>
+        </p>
+        <p style="margin:0px;"> Quantity: <b>{{item.item.quantity}}</b></p>
+        <div *ngIf="group_prop_map['' + item.item.id] && item.item.properties" class="item-props">
+            <span *ngFor="let prop of group_prop_map['' + item.item.id]">
+                <small>{{prop}}: <b>{{item.item.properties[prop]}}</b></small>
+            </span>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <p *ngIf="item.item.discount_per_item">
+            <b class="item-price">
+            {{_settings.currency_format}}{{(item.item.quantity * (item.item.price_per_item * (1 - item.item.discount_per_item/100))).toFixed(2)}}
+            </b>
+        </p>
+        <p *ngIf="!item.item.discount_per_item">
+            <b class="item-price">
+            {{_settings.currency_format}}{{(item.item.quantity * item.item.price_per_item).toFixed(2)}}
+            </b>
+        </p>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="col-xs-12">
+    <ng-template ngFor let-addon="$implicit" [ngForOf]="order.invoice.addons">
+    <p *ngIf="addon.title != 'Total Shipping Weight'" class="invoice-addons">
+        <span class="col-xs-9">
+            {{addon.title}}
+        </span>
+        <span class="col-xs-3" style="white-space:nowrap"> <b>{{_settings.currency_format}} {{addon.value}}</b></span>
+        <span class="clearfix"></span>
+    </p>
+    </ng-template>
+    <div style="margin: 8px 0px">
+        <p class="col-xs-9 text-right text-danger"><b class="item-price">Total</b></p>
+        <p class="col-xs-3 text-danger"><b class="item-price">{{_settings.currency_format}} {{order.invoice.total || order.price}}</b></p>
+        <div class="clearfix"></div>
+    </div>
+    <ng-template ngFor let-coupon="$implicit" [ngForOf]="order.invoice['coupons']">
+    <p class="invoice-addons">
+        <span class="col-xs-9">
+            <small>Coupon <b>{{coupon.code}}</b> saved</small>
+        </span>
+        <span class="col-xs-3" style="white-space:nowrap">
+            <small><b>{{_settings.currency_format}} {{coupon.amount}}</b></small>
+        </span>
+        <span class="clearfix"></span>
+    </p>
+    </ng-template>
+</div>

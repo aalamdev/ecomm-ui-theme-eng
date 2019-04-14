@@ -1,0 +1,45 @@
+.suggestion-key {
+    width: 48%;
+    display: inline-block;
+    word-wrap: break-word;
+    text-align: right;
+    text-transform: capitalize;
+}
+
+.suggestion-value {
+    width: 48%;
+    display:inline-block;
+    text-align: left;
+    padding: 0px 12px;
+    font-weight: 700;
+}
+
+.suggestion-key .input-group-btn {
+    position: absolute;
+    width: auto;
+}
+
+.suggestion-key input {
+    padding-left: 40px;
+    text-align: right;
+}
+
+input.suggestion-value {
+    border: 0px;
+    padding: 6px 0px;
+    border-bottom: 1px solid #ddd;
+}
+
+.suggestion-key input {
+    border: 0px;
+    border-bottom: 1px solid #ddd;
+}
+
+.input-group-btn {
+    border: 0px;
+}
+
+.detail-block {
+    padding: 3px 0px;
+    overflow: hidden;
+}
