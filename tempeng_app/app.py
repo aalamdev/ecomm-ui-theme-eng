@@ -40,9 +40,6 @@ class TempengAppHandler(wsgi.BaseHandler):
 
 def routes_cb(mapper):
     with mapper.submapper(handler=TempengAppHandler(mapper)) as m:
-		#m.connect("/aalam/tempeng/",
-		#	      action="temp_eng",
-		#	      conditions={"method": ['GET']})
         m.connect("/aalam/tempeng/{path_info:.*}",
                   action="send_public_page",
                   conditions={"method": ["GET"]},
