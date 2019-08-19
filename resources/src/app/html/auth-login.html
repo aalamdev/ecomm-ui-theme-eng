@@ -4,6 +4,24 @@
   <div class="form-group">
     <input type="text" name="mobile" class="form-control" [(ngModel)]="value" placeholder="Mobile Number or Email Id">
   </div>
+  <div class="form-group" *ngIf="auth_type == 'password'">
+    <input type="password" name="password" class="form-control" [(ngModel)]="password" placeholder="Your password">
+    <div>
+        <p *ngIf="!password_reset">
+        <span class="pull-right">
+            <a (click)="forgotPassword()">Forgot Password?</a>
+        </span>
+        </p>
+        <p *ngIf="password_reset" class="help-block">
+            <span class="glyphicon glyphicon-info-sign"></span> We have sent an email to you with the instruction on how to reset your password.
+            You can try login after resetting the password.
+        </p>
+        <span class="clearfix"></span>
+    </div>
+  </div>
+  <div class="form-group" *ngIf="auth_type == 'otp'">
+    <input type="text" name="otp" class="form-control" [(ngModel)]="otp" placeholder="OTP">
+  </div>
   <button type="submit" class="btn btn-primary theme-bg theme-border-color-dark center-block">Login</button>
   <br />
   <div *ngIf="alert_msg" class="alert alert-danger" [innerHTML]="alert_msg"></div>

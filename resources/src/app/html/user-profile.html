@@ -23,6 +23,39 @@
                 <label for="">Email ID</label>
                 <input type="email" name="email_id" class="form-control" [(ngModel)]="email" placeholder="e.g, hello@aalam.io">
               </div>
+
+              <div *ngIf="auth && !auth['current'] && auth['available_auths'].length > 0">
+                <p><span class="glyphicon glyphicon-alert text-danger"></span> Your account is not protected.
+                    If you wish to protect your account, choose from the following method(s)
+                </p>
+              </div>
+
+              <div *ngIf="auth && auth['current'] && auth['available_auths'].length > 0">
+                <p><span class="glyphicon glyphicon-ok text-success"></span> You had earlier opted to protect your account.
+                    <span *ngIf="auth['available_auths'].length > 1">
+                    You can however change the authentication type if you wish.
+                    </span>
+                </p>
+              </div>
+              <div class="form-group" *ngIf="auth">
+                <ng-template ngFor [ngForOf]="auth['available_auths']" let-xauth="$implicit">
+                  <label style="text-transform:capitalize" class="control-label">
+                    <input type="radio" name="auth" [(ngModel)]="new_auth_type" [value]="xauth"/> {{xauth}}
+                  </label>
+                  <br/>
+                </ng-template>
+                <div *ngIf="auth['current']">
+                  <label class="control-label">
+                    <input type="radio" name="auth" [(ngModel)]="new_auth_type" [value]="''"/> No Protection
+                  </label>
+                </div>
+              </div>
+
+               <div class="form-group" *ngIf="new_auth_type == 'password' && new_auth_type != auth['current']">
+                <label class="control-label">Choose a password</label>
+                <input class="form-control" type="password" [(ngModel)]="new_password" name="password"/>
+              </div>
+
               <div *ngIf="success_msg && success_msg.length > 0" class="alert alert-success">
                 <div *ngFor="let msg of success_msg"><span class="glyphicon glyphicon-ok"></span> {{msg}}</div>
               </div>

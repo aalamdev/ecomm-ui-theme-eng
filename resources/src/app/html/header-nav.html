@@ -109,9 +109,12 @@
 </div>
 
 <div class="hidden-md hidden-lg" [style.display]="show_filters?'block':'none'"
-    style="position:fixed;top:10px;left:10px;right:10px;bottom:10px;overflow:auto;z-index:10;background-color:white;border:1px solid #ddd;padding:6px 12px">
-    <p><b class="pull-right" (click)="show_filters=false"><span class="glyphicon glyphicon-remove"></span></b>
+    style="position:fixed;top:10px;left:10px;right:10px;bottom:10px;overflow:auto;z-index:10;background-color:white;border:1px solid #ddd;padding:6px 12px;-webkit-overflow-scrolling:touch;">
+    <p>
+       <b class="pull-right" (click)="show_filters=false"><span class="glyphicon glyphicon-remove"></span></b>
        <b>FILTERS</b>
     </p>
-    <search-filters (close)="show_filters=false"></search-filters>
+    <div style="height:100%;overflow-y:auto">
+        <search-filters (close)="show_filters=false"></search-filters>
+    </div>
 </div>

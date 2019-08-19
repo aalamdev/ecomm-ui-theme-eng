@@ -6,12 +6,12 @@
             <!--<span class="valign-helper"></span><img [src]="'/aalam/stock/item/' + item.id + '/image/_/face_img'"
                  onerror='this.onerror = null; this.src="/aalam/ecomm/r/s/images/no-image.png"'
                  [class.img-oos]="!preorder_is_allowed && item.stock <= 0"/>-->
-            <div class="bg" *ngIf="!preorder_is_allowed && item.stock <= 0"></div>
+            <!--<div class="bg" *ngIf="!preorder_is_allowed && item.stock <= 0"></div>
             <div class="middle" *ngIf="!preorder_is_allowed && item.stock <= 0">
                <div class="alert alert-danger">
                   <span class="glyphicon glyphicon-alert"></span> Sold out
                </div>
-            </div>
+            </div>-->
         </div>
     </div>
     <div class="card-item-details">

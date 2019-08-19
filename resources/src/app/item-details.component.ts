@@ -117,8 +117,9 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
         let keys = Object.keys(this.prop_layout);
         this.prop_layout[pname]['selected'] = pvalue;
         let common_ids = this.prop_layout[pname]['map'][pvalue];
+        let scommon_ids = common_ids.sort(function(a, b) { return +a - +b;})
         if (selectMin) {
-            this.item_id = this.getMin(common_ids)
+            this.item_id = scommon_ids[0]
             this.item = this.item_map[this.item_id]['details'];
             this.itemImages.refresh(this.item_id);
             this.description = this.item_map[this.item_id]['description'];
@@ -128,7 +129,7 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
             let _tmp_pmap = {};
             let _common_ids = [];
             pname = keys[i];
-            for (let item of common_ids) {
+            for (let item of common_ids.sort(function(a, b) { return +a - +b;})) {
                 if (pname in this.item_map[item]['props']) {
                     let pv = this.item_map[item]['props'][pname];
                     if (pv in _tmp_pmap) {
@@ -177,7 +178,8 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
                 anchor_prop = keys[0];
 
             let finished_items_ids = [];
-            for (let item_id of gret.item_ids) {
+            let sitem_ids = gret.item_ids.sort(function(a, b) {return +a - +b;})
+            for (let item_id of sitem_ids) {
                 this._stocks.getItemsDetails(item_id).then(ret => {
                     let item_props = {}
                     for (let prop of ret.properties) {

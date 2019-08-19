@@ -9,6 +9,8 @@ import {ModelECommContact} from "./models/auth";
 import {BreadCrumbsService} from "./bread-crumbs.service";
 import {SettingsService} from "./settings.service";
 
+declare var ga:any;
+
 @Component({
     templateUrl: "html/cart.html",
     styleUrls: ['css/cart.css']
@@ -197,7 +199,6 @@ export class CartComponent implements OnInit {
                 } else {
                     found = true;
                 }
-                console.log("Not Found = " + found);
                 if (!found) {
                     if (ret.items)
                         this.coupon_alert_msg = "Sorry, this coupon is restricted for selected items only!";
@@ -207,7 +208,6 @@ export class CartComponent implements OnInit {
                     setTimeout(() => {this.coupon_alert_msg = undefined;}, 3000);
                     return;
                 } else {
-                    console.log("Description " + this._cs.coupon_status.description + " rule " + ret.rule);
                     if (!this._cs.coupon_status.description) {
                         let rule = ret.rule;
                         if (rule == 1)
@@ -232,6 +232,7 @@ export class CartComponent implements OnInit {
         if (this._cs.coupon_status)
             cc = this._cs.coupon_code;
         this.disable_checkout = true;
+
         this._ecomms.createOrder(cc).then((ret) => {
             this._cs.resetCoupon();
             if (isNaN(ret)) {
@@ -245,6 +246,14 @@ export class CartComponent implements OnInit {
             }
             this.disable_checkout = false;
         })
+        try {
+            ga('send', 'event', {
+                eventAction: 'conversion',
+                eventCategory: 'Cart',
+                eventValue: this.total_price
+            });
+        } catch(err) {
+        }
     }
 }
 

@@ -12,6 +12,10 @@ import {BreadCrumbsService} from "./bread-crumbs.service";
 export class AuthLoginComponent {
     public value: string;
     public alert_msg:string;
+    public auth_type:string;
+    private password:string;
+    private password_reset:boolean;
+    private otp:string;
 
     constructor (private _ecomms: ECommService, private _router: Router,
                  private _cs:CartService, private _bcs:BreadCrumbsService) { }
@@ -24,6 +28,11 @@ export class AuthLoginComponent {
         }
         let inp = {}
         inp['value'] = this.value;
+        if (this.auth_type == 'password') {
+            inp['password'] = this.password;
+        } else if (this.auth_type == 'otp') {
+            inp['otp'] = this.otp;
+        }
         this._ecomms.login(inp).then((ret) => {
             if (ret == 0) {
                 let lc = this._bcs.crumbs[this._bcs.crumbs.length - 2];
@@ -31,8 +40,19 @@ export class AuthLoginComponent {
                     lc['link'], {queryParams: lc['queryParams']})
             } else if (ret == 404) {
                 this.alert_msg = "Looks like you have not registered.<br/>Kindly register!"
+            } else if (typeof(ret) == 'object' && ret['status'] == 202) {
+                this.auth_type = ret['auth']
             } else {
                 this.alert_msg = ret;
+            }
+        })
+    }
+    forgotPassword() {
+        this._ecomms.resetpw({'v': this.value, 'redirect_to': window.location.hostname}).then(ret => {
+            if (ret == 0) {
+                this.password_reset = true;
+            } else {
+                this.alert_msg = "Unable to reset the password";
             }
         })
     }

@@ -10,7 +10,6 @@ import {ECommService} from "./ecomm.service";
 })
 export class SearchResultsUnFilteredType implements OnInit {
     @Input('type') type:string;
-    @Input('show_oos') show_oos:boolean;
     public items:ModelGetItems[];
 
     constructor (private _stocks:StockService, private _ecomm:ECommService) {
@@ -18,8 +17,6 @@ export class SearchResultsUnFilteredType implements OnInit {
 
     ngOnInit() {
         let filter = {"type": this.type, "max": 4, "sort": "id.desc"};
-        if (!this.show_oos)
-            filter['stock_g'] = 0;
         this._stocks.getItems("id,name_unique,sale_price,sale_discount,stock,type_id",
                               filter).then((ret) => {
             if (typeof ret == "string") {
@@ -27,13 +24,6 @@ export class SearchResultsUnFilteredType implements OnInit {
                 this.items = ret;
             }
         })
-    }
-    refresh(oos:boolean) {
-        if (oos == this.show_oos)
-            return
-
-        this.show_oos = oos;
-        this.ngOnInit();
     }
 }
 
@@ -43,7 +33,6 @@ export class SearchResultsUnFilteredType implements OnInit {
 })
 export class SearchResultsUnFiltered {
     @Input('params') params:Object;
-    private show_oos:boolean;
     private item_types:string[];
     public show:boolean;
     @ViewChildren(SearchResultsUnFilteredType) type_comps:QueryList<SearchResultsUnFilteredType>;
@@ -51,10 +40,8 @@ export class SearchResultsUnFiltered {
     constructor(private _stocks: StockService, private _ecomms:ECommService) {
     }
 
-    load(show_oos:boolean) {
-        let oos_changed = this.show_oos != show_oos;
+    load() {
         this.show = true;
-        this.show_oos = show_oos;
         this._stocks.getItemTypes().then((ret) => {
             this.item_types = [];
             let obj = {}
@@ -70,11 +57,6 @@ export class SearchResultsUnFiltered {
             }
             for (let i of Object.keys(obj))
                 this.item_types.push(obj[i])
-
-            if (oos_changed) {
-                for (let obj of this.type_comps.toArray())
-                    obj.refresh(this.show_oos)
-            }
         });
     }
     unload() {

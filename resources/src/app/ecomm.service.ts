@@ -38,10 +38,13 @@ export class ECommService {
                          url: "/aalam/base/cauth/register",
                          data: JSON.stringify(data),
                          contentType: "application/json; charset=utf-8",
-                         success: (data) => {
+                         success: (data, textStatus, xhr) => {
                              this.contact_details = undefined;
                              this._cs.login();
-                             resolve(0);
+                             if (xhr.status == 200)
+                                 resolve(0);
+                             else
+                                 resolve(xhr.status)
                          },
                          error: function(data) {resolve(data.responseText);}
             })
@@ -53,10 +56,13 @@ export class ECommService {
             jQuery.ajax({method: "POST",
                          url: "/aalam/base/cauth/login",
                          data: data,
-                         success: (data) => {
+                         success: (data, textStatus, xhr) => {
                              this.contact_details = undefined;
-                             this._cs.login();
-                             resolve(0);
+                             if (xhr.status == 200) {
+                                this._cs.login();
+                                resolve(0);
+                             } else 
+                                 resolve({status: xhr.status, auth: data['type']})
                          },
                          error: function(data) {
                              if (data.statusCode().status == 404)
@@ -86,7 +92,7 @@ export class ECommService {
         let data = {"address": address}
         return new Promise<any>(resolve=>
             jQuery.ajax({method: "PUT",
-                         url: "/aalam/base/cauth/contact/address",
+                         url: "/aalam/base/cauth/address",
                          data: JSON.stringify(data),
                          contentType: "application/json; charset=utf-8",
                          success: (data) => {
@@ -101,7 +107,7 @@ export class ECommService {
     deleteAddress(address_id:number) {
         return new Promise<any>(resolve =>
             jQuery.ajax({method: "DELETE",
-                         url: "/aalam/base/cauth/contact/address/" + address_id,
+                         url: "/aalam/base/cauth/address/" + address_id,
                          success: (data) => {
                              this.contact_details = undefined;
                              resolve(0)
@@ -119,7 +125,7 @@ export class ECommService {
         return new Promise<ModelECommContact>(resolve=>
             jQuery.ajax({
                 method: "GET",
-                url: "/aalam/ecomm/contact",
+                url: "/aalam/base/cauth",
                 success: (ret) => {
                    this.contact_details = ret;
                    resolve(ret)
@@ -131,7 +137,7 @@ export class ECommService {
     updateContact(key_id:string, data: Object) {
         return new Promise<any>(resolve=>
             jQuery.ajax({method: "POST",
-                         url: "/aalam/base/cauth/contact/" + key_id,
+                         url: "/aalam/base/cauth/details/" + key_id,
                          data: data,
                          success: function(data) {
                              resolve(0);
@@ -139,6 +145,38 @@ export class ECommService {
                          error: function(data) {resolve(data.responseText);}
             })
         );
+    }
+
+    setAuthType(params) {
+        return new Promise<number>(resolve =>
+            jQuery.ajax({
+                method: "POST",
+                url: "/aalam/base/cauth/settings",
+                data:params,
+                success: function() {
+                    resolve(0);
+                },
+                error: function() {
+                    resolve(-1);
+                }
+            })
+        )
+    }
+
+    resetpw(params) {
+        return new Promise<number>(resolve =>
+            jQuery.ajax({
+                method: "POST",
+                url: "/aalam/base/cauth/resetpw",
+                data:params,
+                success: function() {
+                    resolve(0);
+                },
+                error:function() {
+                    resolve(-1);
+                }
+            })
+        )
     }
 
     /*Order APIs*/

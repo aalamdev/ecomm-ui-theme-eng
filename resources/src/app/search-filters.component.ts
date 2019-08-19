@@ -140,12 +140,10 @@ export class SearchFilterComponent {
 export class SearchFiltersComponent {
     @Output('close') close = new EventEmitter();
     private params:Object;
-    public allow_preorders;
     public properties:Object;
     public properties_names: string[];
     private show_filter:boolean;
     private params_bkp:Object;
-    private show_oos:boolean;
     private sorter_index:number;
     private sorter_map = [
                           {'value': 'id.desc', 'name': 'New Arrivals'},
@@ -163,29 +161,8 @@ export class SearchFiltersComponent {
     ngOnInit() {
         this._ss.notify.subscribe((params) => {
             this.params = params;
-            if (this.show_oos) {
-                let tmp = false;
-                for (let key of Object.keys(params)) {
-                    if (key == 'show_oos') {
-                        tmp = true;
-                        break;
-                    }
-                }
-                this.show_oos = tmp;
-            }
             this.routerParamsChanged(this.params);
         });
-    }
-    oosLabelClicked() {
-        this.show_oos = !this.show_oos;
-        let data:Object;
-        if (this.show_oos)
-            data = {'name': 'show_oos', 'value': 1}
-        else
-            data = {'name': 'show_oos', 'value': 0}
-
-        this.paramChanged(data);
-        this.close.next({});
     }
     paramChanged(data:Object) {
         if (data['value'])
@@ -199,30 +176,15 @@ export class SearchFiltersComponent {
             this._ss.route_sub.next({});
     }
     routerParamsChanged(p) {
-        if (this.allow_preorders != undefined)
-            this._routerParamsChanged(p)
-        else {
-            this._ecomms.isPreorderAllowed().then(ret => {
-                this.allow_preorders = ret;
-                this._routerParamsChanged(p);
-            })
-        }
+        this._routerParamsChanged(p)
     }
     _routerParamsChanged(params:Object) {
         this.params = params;
-
-        if (this.allow_preorders == undefined)
-            return
 
         let pbkp = new Object();
         this.sorter_index == undefined;
 
         for (let k of Object.keys(this.params)) {
-            if ('show_oos' == k)
-                if (this.allow_preorders)
-                    this.show_oos = true;
-                else
-                    this.show_oos = this.params[k] == '1';
             pbkp[k] = this.params[k];
             if (k == 'sort') {
                 let index = 0;
@@ -237,9 +199,6 @@ export class SearchFiltersComponent {
             }
         }
         this.params_bkp = pbkp;
-        if (!this.allow_preorders && !this.show_oos)
-            this.params_bkp['show_oos'] = 0;
-
 
         this._stocks.getItemProperties(this.params_bkp).then((ret) => {
             if (typeof ret == "string") {

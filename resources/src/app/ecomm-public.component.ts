@@ -117,6 +117,7 @@ export class HeaderNav {
     private cart_sub:any;
     public contact_details:ModelECommContact;
     private params = new Object;
+    private selected:boolean;
     public rand = Math.round(Math.random() * 1000);
     constructor(private _cs:CartService, private _stocks:StockService,
                 private _router:Router, private _ecomms:ECommService,
@@ -164,6 +165,7 @@ export class HeaderNav {
                 try { this.xhr.abort(); } catch(e){}
                 let suggestions = []
                 term = term.toLowerCase();
+                this.selected = false;
                 for (let type of this.item_types) {
                     if (this._ecomms.invalid_item_types_obj[type.id] != undefined)
                         continue;
@@ -192,8 +194,11 @@ export class HeaderNav {
             },
             onSelect: (e, term, item) => {
                 let tmp = new Object;
+                this.selected = true;
                 if (item.data('name'))
                     tmp['name_like'] = "%" + item.data('name') + "%";
+                else if (item.data('type'))
+                    tmp['type'] = item.data('type');
                 this._router.navigate(['/'], {queryParams: tmp})
             }
         })
@@ -210,7 +215,7 @@ export class HeaderNav {
         })
     }
     searchName() {
-        if (this.search_value && this.search_value.length > 0) {
+        if (!this.selected && this.search_value && this.search_value.length > 0) {
             this._router.navigate(['/'], {queryParams: {'name_like': '%' + this.search_value + '%'}});
         } else {
             return;

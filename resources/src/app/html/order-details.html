@@ -1,4 +1,4 @@
-<div *ngIf="is_priv_app">
+<div *ngIf="is_priv_app" class="hidden-print">
     <br/>
     <div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
     <p>
@@ -7,13 +7,13 @@
     </div>
     <div class="clearfix"></div>
 </div>
-<div style="text-align:center">
+<div style="text-align:center" class="hidden-print">
     <a [routerLink]="_bcs.crumbs[0]['link']" [queryParams]="_bcs.crumbs[0]['queryParams']">
     <img src="/aalam/ecomm/i/brand.img" class="brand-img" alt="Brand image"/>
     </a>
 </div>
 
-<div *ngIf="order_details">
+<div *ngIf="order_details" class="hidden-print">
   <div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
   <div class="panel panel-default">
    <div class="panel-heading">
