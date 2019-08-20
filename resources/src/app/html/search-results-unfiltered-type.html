@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!items || items.length > 0">
 <h3 class="type-heading">
     <a [routerLink]="['/']" [queryParams]="{'type': type}" style="color:inherit;cursor:pointer">{{type}}</a>
 </h3>
@@ -20,4 +20,5 @@
         <span class="glyphicon glyphicon-plus"></span> Load more
     </a>
 </p>
+<p *ngIf="!items" class="text-center"><span class="spinner"></span></p>
 </div>

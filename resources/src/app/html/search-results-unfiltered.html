@@ -1,9 +1,14 @@
 
 <div *ngIf="show">
-<div *ngIf="item_types">
+<div *ngIf="item_types && collections_loaded">
 <div *ngFor="let type of item_types">
-    <search-results-unfiltered-type [type]="type" [show_oos]="show_oos"></search-results-unfiltered-type>
+    <search-results-unfiltered-type [type]="type.type" [type_id]="type.id"
+        [items]="collections?collections[type.id]:null"
+        [show_oos]="show_oos"></search-results-unfiltered-type>
     <hr/>
 </div>
+</div>
+<div *ngIf="!item_types || !collections_loaded">
+    <p class="text-center"><span class="spinner"></span></p>
 </div>
 </div>

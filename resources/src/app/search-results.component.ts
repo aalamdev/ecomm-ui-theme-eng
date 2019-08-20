@@ -87,6 +87,7 @@ export class SearchResultsFiltered {
     styleUrls: ['css/search-results.css']
 })
 export class SearchResultsComponent {
+    private allow_preorders;
     private params = {};
     private item_types:ModelItemType[];
     private show_sort:boolean;
@@ -121,28 +122,41 @@ export class SearchResultsComponent {
         });
     }
     routerParamsChanged(params:Object) {
-        this._routerParamsChanged(params);
+        if (this.allow_preorders == null) {
+            this._ecomm.isPreorderAllowed().then(ret => {
+                this.allow_preorders = ret;
+                this._routerParamsChanged(params);
+            })
+        } else {
+            this._routerParamsChanged(params);
+        }
     }
     _routerParamsChanged(params:Object) {
         let pkeys = new Array();
         let pbkp = new Object;
+        let show_oos = false;
         let sorter;
         for (let k of Object.keys(params)) {
-            pbkp[k] = params[k];
-            if (k == 'sort') {
-                sorter = params['sort'];
+            if (k != 'show_oos') {
+                if (k == 'sort') {
+                    sorter = params['sort'];
+                } else 
+                    pkeys.push(k);
             } else
-                pkeys.push(k);
+                show_oos = params[k] == '1' || params[k].toLowerCase() == 'true';
+
+            pbkp[k] = params[k];
         }
         this.params_keys = pkeys;
         this.params = pbkp;
-        console.log("Router params changed - param " + JSON.stringify(this.params) + ", inp " + JSON.stringify(params));
         if (pkeys.length || sorter) {
             this.search_res_unfiltered_comp.unload()
+            if (!this.allow_preorders)
+                this.params['show_oos'] = show_oos?"1":"0";
             this.search_res_filtered_comp.load(this.params, sorter);
         } else {
             this.search_res_filtered_comp.unload();
-            this.search_res_unfiltered_comp.load();
+            this.search_res_unfiltered_comp.load(this.allow_preorders || show_oos);
         }
     }
     stringify() {

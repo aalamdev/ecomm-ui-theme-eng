@@ -70,6 +70,19 @@ export class StockService {
         }
     }
 
+    getItemCollections(type_ids, params) {
+        params['type_ids'] = type_ids.join(",");
+        return new Promise<Object>(resolve=>
+            jQuery.ajax({method: "GET",
+                         url: "/aalam/stock/item_collections",
+                         data: params,
+                         success: function(data) {
+                             resolve(data)
+                         },
+                         error: function(data) {resolve(null);}
+            }));
+
+    }
     revampFilterParams(params:Object) {
         let tmp = {}
         for (let k of Object.keys(params)) {
